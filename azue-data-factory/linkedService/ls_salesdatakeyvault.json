@@ -1,0 +1,11 @@
+{
+	"name": "ls_salesdatakeyvault",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://SalesDataKeyVault14.vault.azure.net/"
+		}
+	}
+}

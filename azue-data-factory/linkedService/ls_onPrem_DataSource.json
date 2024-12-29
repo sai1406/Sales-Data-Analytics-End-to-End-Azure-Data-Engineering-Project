@@ -1,0 +1,29 @@
+{
+	"name": "ls_onPrem_DataSource",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "LAPTOP-1MT0A11L\\SQLEXPRESS",
+			"database": "testdbnew",
+			"encrypt": "mandatory",
+			"trustServerCertificate": true,
+			"authenticationType": "SQL",
+			"userName": "vinna",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_salesdatakeyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "OnPremDbPassword",
+				"secretVersion": "1799729eea93454da8be4c61e4c1ccb3"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

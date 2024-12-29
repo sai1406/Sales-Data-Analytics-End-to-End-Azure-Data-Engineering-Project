@@ -1,0 +1,202 @@
+{
+	"name": "SalesDataPipeline_end_to_end",
+	"properties": {
+		"activities": [
+			{
+				"name": "GetTableNamesFromOnPrem",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT name as Table_Name FROM sys.tables;\n\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_lookup_OnPrem",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachOnPremTable",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "GetTableNamesFromOnPrem",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('GetTableNamesFromOnPrem').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "IngestDataFromOnPremToBronze",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_onPrem",
+									"type": "DatasetReference",
+									"parameters": {
+										"Table_Name": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_dest_adls",
+									"type": "DatasetReference",
+									"parameters": {
+										"File_Name": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Create Bronze Tables",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "ForEachOnPremTable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Create Bronze Table"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_DataBricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Create Silver tables",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Create Bronze Tables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Create Silver Table"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_DataBricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Create Gold Tables",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Create Silver tables",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Create Gold Table"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_DataBricks",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-12-29T07:47:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "SalesData-adf14",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "890c5cc4-17e0-4595-ba57-476938fa5aa4",
+		"tenantId": "2c6e84d5-9a71-4873-bb07-d7fd7271a2f2"
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"name": "ds_onPrem_lookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_onPrem_DataSource",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
