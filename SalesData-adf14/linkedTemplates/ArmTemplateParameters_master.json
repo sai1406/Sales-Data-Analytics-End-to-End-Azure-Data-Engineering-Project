@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "SalesData-adf14"
+		},
+		"ls_DataBricks_accessToken": {
+			"value": ""
+		},
+		"ls_destination_adls_accountKey": {
+			"value": ""
+		},
+		"ls_DataBricks_properties_typeProperties_existingClusterId": {
+			"value": "1227-071056-ro57iur8"
+		},
+		"ls_destination_adls_properties_typeProperties_url": {
+			"value": "https://salesdatalake14.dfs.core.windows.net/"
+		},
+		"ls_onPrem_DataSource_properties_typeProperties_server": {
+			"value": "LAPTOP-1MT0A11L\\SQLEXPRESS"
+		},
+		"ls_onPrem_DataSource_properties_typeProperties_database": {
+			"value": "testdbnew"
+		},
+		"ls_onPrem_DataSource_properties_typeProperties_userName": {
+			"value": "vinna"
+		},
+		"ls_salesdatakeyvault_properties_typeProperties_baseUrl": {
+			"value": "https://SalesDataKeyVault14.vault.azure.net/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
