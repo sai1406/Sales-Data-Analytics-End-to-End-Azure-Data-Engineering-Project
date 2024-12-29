@@ -107,13 +107,16 @@ The pipeline ingests data from an **On-premises SQL Server (SSMS)**, processes a
 ## **Screenshots**  
 
 ### **1. Azure Data Factory Pipeline**  
-![ADF Pipeline](path/to/adf_pipeline_screenshot.png)  
+<img width="959" alt="image" src="https://github.com/user-attachments/assets/7b2d45a1-20b7-4290-bf9f-09bfd8d3e11f" />
+
 
 ### **2. Databricks Notebooks**  
-![Databricks Notebook](path/to/databricks_notebook_screenshot.png)  
+<img width="959" alt="image" src="https://github.com/user-attachments/assets/7ac09862-f3c1-47cc-8e01-5d779ee2bedb" />
 
-### **3. Power BI Dashboard**  
-![Power BI Dashboard](path/to/power_bi_dashboard_screenshot.png)  
+
+### **3. Azure Data Lake Gen2**  
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/2c112f18-75e1-4bdd-8ca7-b76f41ea267f" />
+
 
 ---
 
@@ -126,13 +129,6 @@ The pipeline ingests data from an **On-premises SQL Server (SSMS)**, processes a
   - Power BI  
 - On-premises SQL Server with sales data.  
 - Self-hosted Integration Runtime configured in ADF.  
-
----
-
-## **Future Enhancements**  
-- Implement Type 2 Slowly Changing Dimensions (SCD2).  
-- Real-time data ingestion using Azure Event Hub or Kafka.  
-- Enable role-based access control (RBAC) with Azure AD integration.  
 
 ---
 
@@ -149,7 +145,7 @@ The pipeline ingests data from an **On-premises SQL Server (SSMS)**, processes a
 2. Implement PySpark scripts for filtering, joining, and incremental loading.  
 
 ### **Step 3: Data Visualization**  
-1. Connect Power BI to the Gold layer tables in Databricks SQL Warehouse.  
+1. Connect Power BI to the Gold layer tables in Databricks Catalog Tables.  
 2. Build dashboards for insights and reporting.  
 
 ---
